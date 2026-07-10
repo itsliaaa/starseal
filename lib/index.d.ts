@@ -6,7 +6,7 @@ export interface StickerOptions {
   [key: string]: unknown;
 }
 export interface StickerBuilder {
-  setRound(scale: number): StickerBuilder;
+  shape(type: string, scale: number | null): StickerBuilder;
   setPackName(text: string): StickerBuilder;
   setPublisherName(text: string): StickerBuilder;
   setEmojis(value: string | string[]): StickerBuilder;

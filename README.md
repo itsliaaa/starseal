@@ -113,7 +113,10 @@ Starseal supports two configuration styles:
 import { createSticker } from '@itsliaaa/starcore'
 
 const stickerBuffer = await createSticker(bufferOrUrl)
-   .setRound(0.5) // Rounded corners (0.0–1.0). Not supported for video stickers.
+   .shape(
+      'round', // 'heart' | 'star' | 'triangle'
+      1.0
+   ) // Shape is not supported for video stickers
    .setPackName('My Sticker Pack 🎨')
    .setPublisherName('Lia Wynn ✨')
    .setEmojis('🎨, ✨, ❤️') // String or array is supported.
@@ -130,7 +133,7 @@ const stickerBuffer = await createSticker(bufferOrUrl)
 import { createSticker } from '@itsliaaa/starcore'
 
 const stickerBuffer = await createSticker(bufferOrUrl, {
-   round: 0.5,
+   shape: 'heart', // Or "{ type: 'heart', scale: 2.2 }"
    packName: 'My Sticker Pack 🎨',
    publisherName: 'Lia Wynn ✨',
    emojis: ['🎨', '✨', '❤️'],

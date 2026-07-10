@@ -1,10 +1,12 @@
 {
    "name": "@itsliaaa/starseal",
-   "version": "0.1.0-beta.0",
+   "version": "0.1.0",
    "description": "A lightweight WhatsApp sticker maker with a fluent API.",
+   "main": "./lib/index.js",
+   "types": "./lib/index.d.ts",
    "exports": {
       ".": {
-         "import": "./lib/index.js",
+         "default": "./lib/index.js",
          "require": "./lib/index.js",
          "types": "./lib/index.d.ts"
       }
@@ -19,9 +21,6 @@
       "type": "git",
       "url": "git+https://github.com/itsliaaa/starseal.git"
    },
-   "bugs": {
-      "url": "https://github.com/itsliaaa/starseal/issues"
-   },
    "funding": {
       "type": "donate",
       "url": "https://saweria.co/itsliaaa"
@@ -29,7 +28,9 @@
    "keywords": [
       "baileys",
       "bot",
+      "builder",
       "ffmpeg",
+      "fluent",
       "sticker",
       "sticker-maker",
       "webp",
