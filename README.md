@@ -91,8 +91,8 @@ const { createSticker } = require('@itsliaaa/starseal')
 import { createSticker } from '@itsliaaa/starseal'
 
 const stickerBuffer = await createSticker(bufferOrUrl)
-   .setPackName('My Sticker Pack 🎨')
-   .setPublisherName('Lia Wynn ✨')
+   .packName('My Sticker Pack 🎨')
+   .publisherName('Lia Wynn ✨')
    .toBuffer()
 
 // Send with your Baileys instance 
@@ -114,16 +114,16 @@ import { createSticker } from '@itsliaaa/starcore'
 
 const stickerBuffer = await createSticker(bufferOrUrl)
    .shape(
-      'round', // 'heart' | 'star' | 'triangle'
-      1.0
+      'round', // 'heart' | 'pentagon' | 'round' | 'star' | 'triangle'
+      1.0 // Scale, but its optional
    ) // Shape is not supported for video stickers
-   .setPackName('My Sticker Pack 🎨')
-   .setPublisherName('Lia Wynn ✨')
-   .setEmojis('🎨, ✨, ❤️') // String or array is supported.
-   .setAccessibilityText('This sticker was made using Starseal!')
-   .withAi() // Equivalent to "withAi(true)"
-   .withLock(false)
-   .withPremium()
+   .packName('My Sticker Pack 🎨')
+   .publisherName('Lia Wynn ✨')
+   .emojis('🎨, ✨, ❤️') // String or array is supported.
+   .accessibilityText('This sticker was made using Starseal!')
+   .ai() // Equivalent to "ai(true)"
+   .lock(false)
+   .premium()
    .toBuffer() // Or ".toFile('./my-sticker.webp')"
 ```
 
@@ -138,9 +138,9 @@ const stickerBuffer = await createSticker(bufferOrUrl, {
    publisherName: 'Lia Wynn ✨',
    emojis: ['🎨', '✨', '❤️'],
    accessibilityText: 'This sticker was made using Starseal!',
-   withAi: false,
-   withLock: true,
-   withPremium: false,
+   ai: false,
+   lock: true,
+   premium: false,
    outputType: 'buffer', // Or 'file'
    outputFile: './my-sticker.webp' // If provided, this takes precedence over outputType.
 })
@@ -149,13 +149,17 @@ const stickerBuffer = await createSticker(bufferOrUrl, {
 ### 💡 Notes
 
 - `emojis` accepts either:
-   - A comma-separated string ("🎨, ✨, ❤️").
+   - A comma-separated string ('🎨, ✨, ❤️').
    - And, array (['🎨', '✨', '❤️']).
-- Calling `.withAi()` without an argument is equivalent to `.withAi(true)`.
-- Calling `.withPremium()` without an argument is equivalent to `.withPremium(true)`.
-- Calling `.withLock()` without an argument is equivalent to `.withLock(true)`.
+- Calling `.ai()` without an argument is equivalent to `.ai(true)`.
+- Calling `.peemium()` without an argument is equivalent to `.premium(true)`.
+- Calling `.lock()` without an argument is equivalent to `.lock(true)`.
 - `.toBuffer()` returns a `Buffer`.
 - `.toFile(path)` writes the sticker to disk and returns the output path.
+
+- `ai()` & `ai: true`: Marks the sticker as AI-generated, displaying an AI logo and a **"Create AI Sticker"** button.
+- `lock()` & `lock: true`: Prevents other users from saving the sticker.
+- `premium()` & `premium: true`: Marks the sticker as premium, sending it as a premium sticker and displaying a diamond logo.
 
 ### ⚙️ Configuration
 

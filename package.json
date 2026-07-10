@@ -1,6 +1,6 @@
 {
    "name": "@itsliaaa/starseal",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "description": "A lightweight WhatsApp sticker maker with a fluent API.",
    "main": "./lib/index.js",
    "types": "./lib/index.d.ts",
