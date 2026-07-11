@@ -18,7 +18,7 @@
       <img src="https://img.shields.io/badge/license-Apache--2.0-blue?style=for-the-badge"/>
    </a>
    <a href="https://nodejs.org">
-      <img src="https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js&labelColor=green&logoColor=white&style=for-the-badge"/>
+      <img src="https://img.shields.io/badge/node-%3E%3D18-339933?logo=node.js&labelColor=green&logoColor=white&style=for-the-badge"/>
    </a>
    <a href="#">
       <img src="https://img.shields.io/badge/ESM-only?logo=javascript&labelColor=yellow&logoColor=black&style=for-the-badge"/>
@@ -73,14 +73,14 @@ npm i @itsliaaa/starseal@github:itsliaaa/starseal
 
 ```javascript
 // --- ESM
-import { createSticker } from '@itsliaaa/starseal'
+import { create } from '@itsliaaa/starseal'
 
 // --- CJS (tested and working on Node.js 24 ✅)
-const { createSticker } = require('@itsliaaa/starseal')
+const { create } = require('@itsliaaa/starseal')
 
 // --- If "require()" fails on CJS, you can use a dynamic import (IIFE)
 ;(async () => {
-   const { createSticker } = await import('@itsliaaa/starseal')
+   const { create } = await import('@itsliaaa/starseal')
    // ...your code
 })()
 ```
@@ -88,9 +88,9 @@ const { createSticker } = require('@itsliaaa/starseal')
 ### 📄 Quick Start
 
 ```javascript
-import { createSticker } from '@itsliaaa/starseal'
+import { create } from '@itsliaaa/starseal'
 
-const stickerBuffer = await createSticker(bufferOrUrl)
+const stickerBuffer = await create(bufferOrUrl)
    .packName('My Sticker Pack 🎨')
    .publisherName('Lia Wynn ✨')
    .toBuffer()
@@ -110,30 +110,45 @@ Starseal supports two configuration styles:
 #### 📎 Fluent API
 
 ```javascript
-import { createSticker } from '@itsliaaa/starcore'
+import { create } from '@itsliaaa/starcore'
 
-const stickerBuffer = await createSticker(bufferOrUrl)
+const stickerBuffer = await create(bufferOrUrl)
    .shape(
-      'round', // 'heart' | 'pentagon' | 'round' | 'star' | 'triangle'
+      'round',
       1.0 // Scale, but its optional
    ) // Shape is not supported for video stickers
+   .id('ABCDEFG') // ID sticker but its optional
    .packName('My Sticker Pack 🎨')
    .publisherName('Lia Wynn ✨')
    .emojis('🎨, ✨, ❤️') // String or array is supported.
    .accessibilityText('This sticker was made using Starseal!')
-   .ai() // Equivalent to "ai(true)"
-   .lock(false)
-   .premium()
-   .toBuffer() // Or ".toFile('./my-sticker.webp')"
+   .options({ ai: true, lock: false, premium: true })
+   .toBuffer() // Or: ".toFile('./my-sticker.webp')", ".toBase64()", ".toStream()", ".toDataURL()"
+```
+
+- ⬜ Available Shapes:
+
+```typescript
+type ShapeType =
+  | 'cross'
+  | 'diamond'
+  | 'heart'
+  | 'hexagon'
+  | 'octagon'
+  | 'pentagon'
+  | 'round'
+  | 'star'
+  | 'triangle';
 ```
 
 #### 📋 Object API
 
 ```javascript
-import { createSticker } from '@itsliaaa/starcore'
+import { create } from '@itsliaaa/starcore'
 
-const stickerBuffer = await createSticker(bufferOrUrl, {
+const stickerBuffer = await create(bufferOrUrl, {
    shape: 'heart', // Or "{ type: 'heart', scale: 2.2 }"
+   id: 'ABCDEFG',
    packName: 'My Sticker Pack 🎨',
    publisherName: 'Lia Wynn ✨',
    emojis: ['🎨', '✨', '❤️'],
@@ -141,9 +156,20 @@ const stickerBuffer = await createSticker(bufferOrUrl, {
    ai: false,
    lock: true,
    premium: false,
-   outputType: 'buffer', // Or 'file'
+   outputType: 'buffer',
    outputFile: './my-sticker.webp' // If provided, this takes precedence over outputType.
 })
+```
+
+- 🖨️ Available Output Types:
+
+```typescript
+type OutputType =
+  | 'base64'
+  | 'buffer'
+  | 'dataUrl'
+  | 'file'
+  | 'stream';
 ```
 
 ### 💡 Notes
@@ -151,15 +177,16 @@ const stickerBuffer = await createSticker(bufferOrUrl, {
 - `emojis` accepts either:
    - A comma-separated string ('🎨, ✨, ❤️').
    - And, array (['🎨', '✨', '❤️']).
-- Calling `.ai()` without an argument is equivalent to `.ai(true)`.
-- Calling `.peemium()` without an argument is equivalent to `.premium(true)`.
-- Calling `.lock()` without an argument is equivalent to `.lock(true)`.
 - `.toBuffer()` returns a `Buffer`.
 - `.toFile(path)` writes the sticker to disk and returns the output path.
+- `.toBase64()` returns a `base64` string.
+- `.toDataURL()` returns a `data:` URL string (`data:image/webp;base64,...`).
+- `.toStream()` returns a `Readable` stream.
 
-- `ai()` & `ai: true`: Marks the sticker as AI-generated, displaying an AI logo and a **"Create AI Sticker"** button.
-- `lock()` & `lock: true`: Prevents other users from saving the sticker.
-- `premium()` & `premium: true`: Marks the sticker as premium, sending it as a premium sticker and displaying a diamond logo.
+
+- `ai: true`: Marks the sticker as AI-generated, displaying an AI logo and a **"Create AI Sticker"** button.
+- `lock: true`: Prevents other users from saving the sticker.
+- `premium: true`: Marks the sticker as premium, sending it as a premium sticker and displaying a diamond logo.
 
 ### ⚙️ Configuration
 

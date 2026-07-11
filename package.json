@@ -1,14 +1,14 @@
 {
    "name": "@itsliaaa/starseal",
-   "version": "0.2.0",
+   "version": "0.3.0",
    "description": "A lightweight WhatsApp sticker maker with a fluent API.",
    "main": "./lib/index.js",
    "types": "./lib/index.d.ts",
    "exports": {
       ".": {
-         "default": "./lib/index.js",
-         "require": "./lib/index.js",
-         "types": "./lib/index.d.ts"
+         "types": "./lib/index.d.ts",
+         "import": "./lib/index.js",
+         "require": "./lib/index.js"
       }
    },
    "files": [
@@ -41,5 +41,5 @@
    "homepage": "https://github.com/itsliaaa/starseal#readme",
    "author": "Lia Wynn",
    "license": "Apache-2.0",
-   "packageManager": "yarn@1.22.22"
+   "sideEffects": false
 }
