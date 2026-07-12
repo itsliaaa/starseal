@@ -1,5 +1,11 @@
 export type ShapeType = 'cross' | 'diamond' | 'heart' | 'hexagon' | 'octagon' | 'pentagon' | 'round' | 'star' | 'triangle';
 export type OutputType = 'base64' | 'buffer' | 'dataUrl' | 'file' | 'stream';
+export namespace Filter {
+  export interface BlurOptions {
+    sigma?: number;
+    steps?: number;
+  }
+}
 export interface ConfigureOptions {
   ffmpegPath?: string;
   tempPath?: string;
@@ -9,16 +15,34 @@ export interface ShapeOptions {
   type: ShapeType;
   scale?: number | null;
 }
-export interface StickerOptions {
+export interface ExifFlags {
+  ai?: boolean;
+  lock?: boolean;
+  premium?: boolean;
+}
+export interface BuilderOptions {
+  blur?: Filter.BlurOptions | number;
+  width?: number;
+  height?: number;
+  quality?: number;
+  fps?: number;
+  brightness?: number;
+  contrast?: number;
+  saturation?: number;
+  gamma?: number;
+  trimStart?: number | string;
+  trimEnd?: number | string;
+  background?: string;
+  flags?: string;
+  format?: string;
+}
+export interface StickerOptions extends BuilderOptions, ExifFlags {
   shape?: ShapeType | ShapeOptions;
   id?: string;
   packName?: string;
   publisherName?: string;
   emojis?: string[] | string;
   accessibilityText?: string;
-  ai?: boolean;
-  lock?: boolean;
-  premium?: boolean;
   outputType?: OutputType;
   outputFile?: string;
 }
@@ -38,6 +62,8 @@ export interface StickerBuilder {
   ai(value: boolean): StickerBuilder;
   lock(value: boolean): StickerBuilder;
   premium(value: boolean): StickerBuilder;
+  flags(options: ExifFlags): StickerBuilder;
+  options(options: BuilderOptions): StickerBuilder;
   toBuffer(): Promise<Buffer>;
   toFile(path?: string): Promise<string>;
   toBase64(): Promise<string>;

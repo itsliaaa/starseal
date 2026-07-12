@@ -77,12 +77,6 @@ import { create } from '@itsliaaa/starseal'
 
 // --- CJS (tested and working on Node.js 24 ✅)
 const { create } = require('@itsliaaa/starseal')
-
-// --- If "require()" fails on CJS, you can use a dynamic import (IIFE)
-;(async () => {
-   const { create } = await import('@itsliaaa/starseal')
-   // ...your code
-})()
 ```
 
 ### 📄 Quick Start
@@ -122,7 +116,25 @@ const stickerBuffer = await create(bufferOrUrl)
    .publisherName('Lia Wynn ✨')
    .emojis('🎨, ✨, ❤️') // String or array is supported.
    .accessibilityText('This sticker was made using Starseal!')
-   .options({ ai: true, lock: false, premium: true })
+   .flags({
+      ai: true,
+      lock: false,
+      premium: true
+   })
+   .options({
+      width: 512, height: 512,
+      flags: 'bilinear',
+      format: 'yuva420p',
+      brightness: 0.1,
+      contrast: 0.05,
+      saturation: 0.2,
+      gamma: 0.03,
+      blur: { sigma: 5, steps: 1 }, // Add gaussian blur
+      // Animated WebP options
+      fps: 24, // Maximum frame rate
+      trimStart: '00:00:00', // Start timestamp
+      trimEnd: '00:00:05' // End timestamp
+   })
    .toBuffer() // Or: ".toFile('./my-sticker.webp')", ".toBase64()", ".toStream()", ".toDataURL()"
 ```
 
@@ -156,6 +168,18 @@ const stickerBuffer = await create(bufferOrUrl, {
    ai: false,
    lock: true,
    premium: false,
+   width: 512,
+   height: 512,
+   flags: 'bilinear',
+   format: 'yuva420p',
+   brightness: 0.1,
+   contrast: 0.05,
+   saturation: 0.2,
+   gamma: 0.03,
+   blur: 2, // Number of blur steps, or "{ sigma, steps }"
+   fps: 24,
+   trimStart: '00:00:00',
+   trimEnd: '00:00:05',
    outputType: 'buffer',
    outputFile: './my-sticker.webp' // If provided, this takes precedence over outputType.
 })
@@ -197,9 +221,9 @@ import { configure } from '@itsliaaa/starseal'
 import { tmpdir } from 'node:os'
 
 configure({
-  ffmpegPath: 'ffmpeg',
-  tempPath: tmpdir(),
-  timeout: 30_000
+   ffmpegPath: 'ffmpeg',
+   tempPath: tmpdir(),
+   timeout: 30_000
 })
 ```
 
