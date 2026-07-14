@@ -110,7 +110,7 @@ const stickerBuffer = await create(bufferOrUrl)
    .shape(
       'round',
       1.0 // Scale, but its optional
-   ) // Shape is not supported for video stickers
+   )
    .id('ABCDEFG') // ID sticker but its optional
    .packName('My Sticker Pack 🎨')
    .publisherName('Lia Wynn ✨')
@@ -158,7 +158,7 @@ type ShapeType =
 ```javascript
 import { create } from '@itsliaaa/starcore'
 
-const stickerBuffer = await create(bufferOrUrl, {
+const myOptions = {
    shape: 'heart', // Or "{ type: 'heart', scale: 2.2 }"
    id: 'ABCDEFG',
    packName: 'My Sticker Pack 🎨',
@@ -179,21 +179,11 @@ const stickerBuffer = await create(bufferOrUrl, {
    blur: 2, // Number of blur steps, or "{ sigma, steps }"
    fps: 24,
    trimStart: '00:00:00',
-   trimEnd: '00:00:05',
-   outputType: 'buffer',
-   outputFile: './my-sticker.webp' // If provided, this takes precedence over outputType.
-})
-```
+   trimEnd: '00:00:05'
+}
 
-- 🖨️ Available Output Types:
-
-```typescript
-type OutputType =
-  | 'base64'
-  | 'buffer'
-  | 'dataUrl'
-  | 'file'
-  | 'stream';
+const stickerBuffer = await create(bufferOrUrl, myOptions)
+   .toBuffer()
 ```
 
 ### 💡 Notes

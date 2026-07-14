@@ -1,5 +1,4 @@
 export type ShapeType = 'cross' | 'diamond' | 'heart' | 'hexagon' | 'octagon' | 'pentagon' | 'round' | 'star' | 'triangle';
-export type OutputType = 'base64' | 'buffer' | 'dataUrl' | 'file' | 'stream';
 export namespace Filter {
   export interface BlurOptions {
     sigma?: number;
@@ -36,6 +35,13 @@ export interface BuilderOptions {
   flags?: string;
   format?: string;
 }
+export interface OutputTypes {
+  toBuffer(): Promise<Buffer>;
+  toFile(newPath?: string): Promise<string>;
+  toBase64(): Promise<string>;
+  toStream(): Promise<Readable>;
+  toDataURL(): Promise<string>;
+}
 export interface StickerOptions extends BuilderOptions, ExifFlags {
   shape?: ShapeType | ShapeOptions;
   id?: string;
@@ -43,10 +49,8 @@ export interface StickerOptions extends BuilderOptions, ExifFlags {
   publisherName?: string;
   emojis?: string[] | string;
   accessibilityText?: string;
-  outputType?: OutputType;
-  outputFile?: string;
 }
-export interface StickerBuilder {
+export interface StickerBuilder extends OutputTypes {
   shape(type: ShapeType, scale?: number | null): StickerBuilder;
   setPackName(text: string): StickerBuilder;
   setPublisherName(text: string): StickerBuilder;
@@ -64,11 +68,6 @@ export interface StickerBuilder {
   premium(value: boolean): StickerBuilder;
   flags(options: ExifFlags): StickerBuilder;
   options(options: BuilderOptions): StickerBuilder;
-  toBuffer(): Promise<Buffer>;
-  toFile(path?: string): Promise<string>;
-  toBase64(): Promise<string>;
-  toStream(): Promise<Readable>;
-  toDataURL(): Promise<string>;
 }
 export function configure(options: ConfigureOptions): boolean;
 export function ffmpeg(
@@ -83,5 +82,5 @@ declare function createSticker(
 declare function createSticker(
   bufferOrUrl: Buffer | string,
   options: StickerOptions
-): Promise<Buffer | string>;
+): OutputTypes;
 export { createSticker, createSticker as create, createSticker as default };
