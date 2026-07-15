@@ -3,7 +3,7 @@
 [![Logo](https://files.catbox.moe/47bhgu.png)](https://www.npmjs.com/package/@itsliaaa/starseal)
 
 <p align="center">
-   A lightweight WhatsApp sticker maker with a fluent API.
+   A lightweight WhatsApp sticker toolkit with a fluent API.
    <br><br>
    <a href="https://www.npmjs.com/package/@itsliaaa/starseal">
       <img src="https://img.shields.io/npm/v/@itsliaaa/starseal?style=for-the-badge&logo=npm"/>
@@ -37,7 +37,8 @@
 - [⚙️ Options](#%EF%B8%8F-options)
    - [📎 Fluent API](#-fluent-api)
    - [📋 Object API](#-object-api)
-   - [💡 Notes](#-notes)
+- [💡 Notes](#-notes)
+- [🖼️ Read WebP](#-read-webp)
 - [⚙️ Configuration](#%EF%B8%8F-configuration)
 - [📋 Requirements](#-requirements)
 - [🚀 Try the Bot](#-try-the-bot)
@@ -84,13 +85,14 @@ const { create } = require('@itsliaaa/starseal')
 ```javascript
 import { create } from '@itsliaaa/starseal'
 
+// Accepts a Buffer, URL, or file path.
 const stickerBuffer = await create(bufferOrUrl)
    .packName('My Sticker Pack 🎨')
    .publisherName('Lia Wynn ✨')
    .toBuffer()
 
-// Send with your Baileys instance 
-// sock.sendMessage(jid, {
+// Send using Baileys
+// await sock.sendMessage(jid, {
 //    sticker: stickerBuffer
 // })
 ```
@@ -201,6 +203,25 @@ const stickerBuffer = await create(bufferOrUrl, myOptions)
 - `ai: true`: Marks the sticker as AI-generated, displaying an AI logo and a **"Create AI Sticker"** button.
 - `lock: true`: Prevents other users from saving the sticker.
 - `premium: true`: Marks the sticker as premium, sending it as a premium sticker and displaying a diamond logo.
+
+### 🖼️ Read WebP
+
+Reads a WebP image from a `Buffer` or a URL and provides access to its metadata, EXIF, and animation frames.
+
+```javascript
+import { readWebP } from '@itsliaaa/starseal'
+
+const webp = await readWebP(bufferOrUrl)
+
+const metadata = webp.getData()
+
+const exif = webp.getExif(false) // Parsed EXIF ("true" for RAW)
+
+const frame_0 = webp.getFrame(0) // Parsed frame (0-based index)
+const rawFrame = webp.getFrame(0, true) // RAW frame
+
+const allFrames = webp.getAllFrames(false) // Or "true" for RAW frames
+```
 
 ### ⚙️ Configuration
 

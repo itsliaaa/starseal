@@ -69,6 +69,15 @@ export interface StickerBuilder extends OutputTypes {
   flags(options: ExifFlags): StickerBuilder;
   options(options: BuilderOptions): StickerBuilder;
 }
+export interface WebPReader {
+  getData(): any;
+  getExif(raw?: false | null): object;
+  getExif(raw: true): Buffer;
+  getFrame(index: number, raw?: false | null): Buffer;
+  getFrame(index: number, raw: true): object;
+  getAllFrames(raw?: false | null): Buffer[];
+  getAllFrames(raw: true): object[];
+}
 export function configure(options: ConfigureOptions): boolean;
 export function ffmpeg(
   inputPath: string,
@@ -83,4 +92,7 @@ declare function createSticker(
   bufferOrUrl: Buffer | string,
   options: StickerOptions
 ): OutputTypes;
+export function readWebP(
+  source: Buffer | string
+): Promise<WebPReader>;
 export { createSticker, createSticker as create, createSticker as default };
